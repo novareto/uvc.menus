@@ -3,7 +3,8 @@ import grokcore.view
 import grokcore.viewlet
 import grokcore.component
 import grokcore.security
-import uvcsite.browser.layout.menu
+import uvc.menus.components
+import uvc.menus.directives
 
 from grokcore.view.meta.views import default_view_name
 from grokcore.viewlet.util import make_checker
@@ -12,7 +13,7 @@ from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
 
 class MenuGrokker(martian.ClassGrokker):
-    martian.component(uvcsite.browser.layout.menu.Menu)
+    martian.component(uvc.menus.components.Menu)
     martian.directive(grokcore.component.context, default=Interface)
     martian.directive(grokcore.view.layer, default=IDefaultBrowserLayer)
     martian.directive(grokcore.viewlet.view, default=Interface)
@@ -34,7 +35,7 @@ class MenuGrokker(martian.ClassGrokker):
             discriminator=('Menu', context, layer, view, name),
             callable=grokcore.component.provideAdapter,
             args=(factory, (context, layer, view),
-                  uvcsite.browser.layout.menu.IMenu , name))
+                  uvc.menus.components.IMenu , name))
 
         config.action(
             discriminator=('protectName', factory),
@@ -44,8 +45,8 @@ class MenuGrokker(martian.ClassGrokker):
 
 
 class MenuItemGrokker(martian.ClassGrokker):
-    martian.component(uvcsite.browser.layout.menu.MenuItem)
-    martian.directive(uvcsite.browser.layout.menu.menu)
+    martian.component(uvc.menus.components.MenuItem)
+    martian.directive(uvc.menus.directives.menu)
     martian.directive(grokcore.component.context, default=Interface)
     martian.directive(grokcore.view.layer, default=IDefaultBrowserLayer)
     martian.directive(grokcore.viewlet.view, default=Interface)
@@ -67,7 +68,7 @@ class MenuItemGrokker(martian.ClassGrokker):
             discriminator=('MenuItem', context, layer, view, menu, name),
             callable=grokcore.component.provideAdapter,
             args=(factory, (menu, context, layer, view),
-                  uvcsite.browser.layout.menu.IMenuEntry , name))
+                  uvc.menus.components.IMenuEntry , name))
 
         config.action(
             discriminator=('protectName', factory),
