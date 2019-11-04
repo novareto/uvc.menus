@@ -25,5 +25,4 @@ setup(name='uvc.menus',
           'martian',
           'zope.browserpage',
           'zope.security',
-      ],
-})
+      ])
