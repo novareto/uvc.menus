@@ -1,16 +1,7 @@
-import collections
-import collections.abc
-import grokcore.component
-import grok
-
 import martian
 from martian.util import scan_for_classes
 from martian.error import GrokError
-
-import zope.security
-from zope.component import queryMultiAdapter, getAdapters 
-from grok.interfaces import IGrokView
-from zope.interface import Interface, implementer
+from uvc.menus.interfaces import IMenu
 
 
 class menu(martian.Directive):
