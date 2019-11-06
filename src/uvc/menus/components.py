@@ -84,20 +84,23 @@ class Menu(collections.abc.Iterable):
         self.entries = list(iter(self))
 
 
+def menus_iterator(context, request, view, *names):
+    for name in names:
+        menu = queryMultiAdapter((context, request, view), IMenu, name=name)
+        menu.__parent__ = self.view
+        if menu is not None and zope.security.canAccess(menu, 'available'):
+            menu.update()        
+            yield name, menu
+
+
 class MenuRenderer(grok.ContentProvider, collections.abc.Iterable):
     grok.baseclass()
 
     bound_menus = tuple()
 
     def __iter__(self):
-        for name in self.bound_menus:
-            menu = queryMultiAdapter(
-                (self.context, self.request, self.view), IMenu, name=name)
-            menu.__parent__ = self.view
-            if menu is not None and zope.security.canAccess(menu, 'available'):
-                menu.update()                
-                yield name, menu
-                
-                
+        return menus_iterator(
+            self.context, self.request, self.view, *self.bound_menus)
+
     def update(self):
         self.menus = collections.OrderedDict(iter(self))
