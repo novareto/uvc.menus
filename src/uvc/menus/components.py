@@ -87,7 +87,7 @@ class Menu(collections.abc.Iterable):
 def menus_iterator(context, request, view, *names):
     for name in names:
         menu = queryMultiAdapter((context, request, view), IMenu, name=name)
-        menu.__parent__ = self.view
+        menu.__parent__ = view
         if menu is not None and zope.security.canAccess(menu, 'available'):
             menu.update()        
             yield name, menu
