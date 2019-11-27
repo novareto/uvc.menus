@@ -76,9 +76,6 @@ class Menu(collections.abc.Iterable):
             e.__parent__ = self
             if zope.security.canAccess(e, 'available') and e.available():
                 yield e
-            else:
-                import pdb
-                pdb.set_trace()
 
     def update(self):
         self.entries = list(iter(self))
